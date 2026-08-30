@@ -3,3 +3,5 @@ dist/
 backups/
 *.log
 backend/db/media.db
+backend/.env
+.env

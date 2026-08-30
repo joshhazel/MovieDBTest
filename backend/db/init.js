@@ -1,6 +1,12 @@
-const Database = require('better-sqlite3');
-const path = require('path');
+import Database from 'better-sqlite3';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+// ESM replacement for __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Initialize SQLite
 const db = new Database(path.join(__dirname, 'media.db'));
 
 // Create Movies table if not exists
@@ -25,4 +31,4 @@ if (count === 0) {
   console.log("Seeded initial movies into SQLite.");
 }
 
-module.exports = db;
+export default db;
