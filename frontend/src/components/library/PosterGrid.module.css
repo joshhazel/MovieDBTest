@@ -1,0 +1,20 @@
+.grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(220px * var(--card-scale)), 1fr));
+  gap: 20px;
+}
+
+.wall {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

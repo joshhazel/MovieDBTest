@@ -70,8 +70,10 @@ app.get('/api/tmdb/search', async (req, res) => {
 // GET MOVIE DETAILS endpoint
 app.get('/api/tmdb/movie/:id', async (req, res) => {
   const { id } = req.params;
+  const { append } = req.query; // e.g. ?append=videos,images,credits
 
-  const details = await getMovieDetails(id);
+  const details = await getMovieDetails(id, append);
+
   if (!details) {
     return res.status(404).json({ error: "Movie not found" });
   }

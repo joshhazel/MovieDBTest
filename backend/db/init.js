@@ -9,26 +9,44 @@ const __dirname = path.dirname(__filename);
 // Initialize SQLite
 const db = new Database(path.join(__dirname, 'media.db'));
 
-// Create Movies table if not exists
+// Create Media table if not exists
 db.exec(`
-  CREATE TABLE IF NOT EXISTS Movies (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    year INTEGER NOT NULL,
-    filePath TEXT NOT NULL
+  CREATE TABLE IF NOT EXISTS media (
+    id INTEGER PRIMARY KEY,                 -- TMDB ID
+    type TEXT,                              -- movie / tv
+    title TEXT,
+    alt_title_en TEXT,
+
+    -- FILTERABLE FIELDS
+    release_year INTEGER,
+    runtime INTEGER,
+    vote_average REAL,
+    popularity REAL,
+    budget INTEGER,
+    revenue INTEGER,
+    certification TEXT,
+    original_language TEXT,
+    spoken_languages TEXT,                  -- "English,French"
+    production_countries TEXT,              -- "US,UK"
+
+    -- NAME-BASED FILTER FIELDS
+    genre_names TEXT,                       -- "Action,Comedy"
+    cast_names TEXT,                        -- "Tom Hanks,Meg Ryan"
+    director_names TEXT,                    -- "James Cameron"
+    keyword_names TEXT,                     -- "time travel,dystopia"
+    company_names TEXT,                     -- "Warner Bros,Village Roadshow"
+
+    -- USER INTERACTION
+    user_rating INTEGER,                    -- 1–5
+    user_watched INTEGER,                   -- 0/1
+    watched_date TEXT,                      -- ISO date
+
+    -- RAW TMDB PAYLOAD
+    raw_json TEXT                           -- entire TMDB movie details JSON
   );
 `);
 
-// Seed only if empty
-const count = db.prepare("SELECT COUNT(*) AS c FROM Movies").get().c;
 
-if (count === 0) {
-  const insert = db.prepare("INSERT INTO Movies (title, year, filePath) VALUES (?, ?, ?)");
-
-  insert.run("Toy Story", 1995, "M:/Movies/Toy Story (1995)/Toy Story (1995).mp4");
-  insert.run("Inception", 2010, "M:/Movies/Inception (2010)/Inception (2010).mkv");
-
-  console.log("Seeded initial movies into SQLite.");
-}
+console.log("SQLite initialized with media schema.");
 
 export default db;

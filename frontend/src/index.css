@@ -28,6 +28,15 @@
   @media (max-width: 1024px) {
     font-size: 16px;
   }
+
+    /* Library UI variables */
+  --surface: #14141f;
+  --line: #2b2b3a;
+  --elevated: #1b1b27;
+  --gold: #f5c15c;
+
+  /* optional but recommended */
+  --text: #f5f5ff; /* overrides your site text color inside the app */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -43,6 +52,13 @@
     --social-bg: rgba(47, 48, 58, 0.5);
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+  
+      /* Library UI dark-mode variables */
+    --surface: #0f0f15;
+    --line: #2b2b3a;
+    --elevated: #1b1b27;
+    --gold: #f5c15c;
+    --text: #e5e5f0;
   }
 
   #social .button-icon {

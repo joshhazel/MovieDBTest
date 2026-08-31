@@ -16,9 +16,16 @@ export async function searchMovie(title, year) {
   return data.results || null;
 }
 
-export async function getMovieDetails(id) {
+// tmdb.js
+export async function getMovieDetails(id, append) {
   const API_KEY = process.env.TMDB_API_KEY;
-  const url = `${BASE}/movie/${id}?api_key=${API_KEY}&append_to_response=images,credits`;
+
+  const appendParam = append
+    ? `&append_to_response=${append}`
+    : "&append_to_response=images,credits"; // default
+
+  const url = `${BASE}/movie/${id}?api_key=${API_KEY}${appendParam}`;
+
   const res = await fetch(url);
   return await res.json();
 }

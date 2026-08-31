@@ -1,0 +1,19 @@
+.bulbs {
+  display: flex;
+  gap: 3px;
+}
+
+.filled,
+.empty {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.filled {
+  background: var(--gold);
+}
+
+.empty {
+  background: var(--line);
+}
