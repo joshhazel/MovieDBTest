@@ -8,6 +8,9 @@ export default function PosterCard({ item, size }) {
   // ⭐ Hover-expand state MUST be inside the component
   const [expanded, setExpanded] = useState(false);
 
+  //Error handlign loading the image for cover art
+  const [imageError, setImageError] = useState(false);
+
   function toggleWatched() {
     setWatched((prev) => !prev);
   }
@@ -32,44 +35,61 @@ export default function PosterCard({ item, size }) {
         boxShadow: "0 18px 40px rgba(0,0,0,0.6)",
       }}
     >
-      {/* Poster image area */}
-      <div
-        style={{
-          position: "relative",
-          height: `${270 * size}px`,
-          background: "#222",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "var(--text)",
-          fontSize: "13px",
-          opacity: 0.7,
-        }}
-      >
-        {/* Clickable checkmark */}
-        <div
-          onClick={toggleWatched}
-          style={{
-            position: "absolute",
-            top: "8px",
-            left: "8px",
-            width: "26px",
-            height: "26px",
-            borderRadius: "999px",
-            border: "1px solid rgba(255,255,255,0.4)",
-            background: watched ? "var(--accent)" : "rgba(0,0,0,0.5)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
-        >
-          {watched ? "✓" : ""}
-        </div>
+{/* Poster image area */}
+<div
+  style={{
+    position: "relative",
+    height: `${270 * size}px`,
+    background: "#222",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "var(--text)",
+    fontSize: "13px",
+    opacity: 0.7,
+  }}
+>
+  {/* Clickable checkmark */}
+  <div
+    onClick={toggleWatched}
+    style={{
+      position: "absolute",
+      top: "8px",
+      left: "8px",
+      width: "26px",
+      height: "26px",
+      borderRadius: "999px",
+      border: "1px solid rgba(255,255,255,0.4)",
+      background: watched ? "var(--accent)" : "rgba(0,0,0,0.5)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: "16px",
+      cursor: "pointer",
+    }}
+  >
+    {watched ? "✓" : ""}
+  </div>
 
-        Cover art
-      </div>
+  {/* ⭐ If image loads → show it */}
+  {!imageError && (
+    <img
+      src={`/src/assets/${item.posters[0]}`}
+      alt={item.title}
+      onError={() => setImageError(true)}
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        borderRadius: "12px 12px 0 0",
+      }}
+    />
+  )}
+
+  {/* ⭐ If image fails → show your existing placeholder */}
+  {imageError && "Cover art"}
+</div>
+
 
       {/* Text area */}
       <div
@@ -115,12 +135,12 @@ export default function PosterCard({ item, size }) {
         {/* Title + year on same line */}
         <div style={{ fontSize: "17px", fontWeight: 600 }}>
           {item.title}{" "}
-          <span style={{ fontWeight: 400, opacity: 0.85 }}>({item.year})</span>
+          <span style={{ fontWeight: 400, opacity: 0.85 }}>({new Date(item.release_date).getFullYear()})</span>
         </div>
 
         {/* Genres */}
         <div style={{ fontSize: "15px", opacity: 0.85 }}>
-          {item.genre.includes("·") ? item.genre : item.genre.replace(",", " · ")}
+            {item.genres?.join(" · ")}
         </div>
 
         {/* ⭐ Hover-expand synopsis */}
