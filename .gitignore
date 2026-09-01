@@ -5,3 +5,4 @@ backups/
 backend/db/media.db
 backend/.env
 .env
+assets/
